@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+  <title>Challange 4</title>
+</head>
+
+<body>
+  <div id="exercise">
+    <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+    <div>
+      <button @click="startEffect">Start Effect</button>
+      <div v-bind:class="[activeClass[index]]" id="effect"></div>
+    </div>
+    <hr>
+    <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+    <div :style="[{textAlign: 'center'},
+                  {height: '50px'},
+                  {border: '1px solid black'}, 
+                  {fontWeight: 'bold'}]">
+      I got no class :(</div>
+    <hr>
+    <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+    <div>
+      <ul>
+        <li @click="callClass(item)" v-for="item in arrayClass">
+          {{item}}
+        </li>
+      </ul>
+      <input type="text" v-model="chosenClass">
+      <div :class="chosenClass" id="effect"></div>
+    </div>
+    <hr>
+    <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+    <div>
+      <ul>
+        <li @click="callClass(item)" v-for="item in arrayClass">
+          {{item}}
+        </li>
+      </ul>
+      <input type="text" v-model="chosenClass">
+      <div @click="updatePadding" :class="[chosenClass,{putpadding: booleanClass}]" id="effect">Click me</div>
+      <input @click="updatePadding" type="text" v-model="booleanClass">
+    </div>
+    <hr>
+    <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+    <div>
+      <input type="text">
+      <div></div>
+    </div>
+    <hr>
+    <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+    <div>
+      <button @click="startBarProgress">Start Progress</button>
+      <p>Progress: {{barwidth}} %</p>
+      <div :style="[myStyle]"></div>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#exercise',
+      data: {
+        activeClass: ['highlight', 'shrink'],
+        index: 0,
+        arrayClass: ['blue', 'green', 'red'],
+        chosenClass: 'Click above',
+        booleanClass: false,
+        barwidth: 90
+      },
+      methods: {
+        startEffect() {
+          setInterval(() => {
+            this.index = this.index === 1 ? 0 : 1
+          }, 2000)
+        },
+        callClass(item) {
+          console.log(item)
+          this.chosenClass = item
+        },
+        updatePadding() {
+          this.booleanClass = !this.booleanClass
+        },
+        startBarProgress() {
+          setInterval(() => {
+            this.barwidth++
+            clearInterval(100);
+          }, 1000)
+        }
+
+      },
+      computed: {
+        myStyle() {
+          return {
+            width: this.barwidth + 'px',
+            height: '20px',
+            margin: '5px',
+            border: '1px solid black'
+          }
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>
