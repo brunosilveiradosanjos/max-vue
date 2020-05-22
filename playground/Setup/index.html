@@ -44,8 +44,8 @@
         <section class="row log">
             <div class="small-12 columns">
                 <ul>
-                    <li>
-
+                    <li v-for="event in events" class="log">
+                        {{event}}
                     </li>
                 </ul>
             </div>
@@ -59,13 +59,15 @@
                 attacker: true,
                 you: 50,
                 monster: 50,
-                damage: 0
+                damage: 0,
+                events: []
             },
             methods: {
                 startGame() {
                     this.start = !this.start
                     this.you = 100
                     this.monster = 100
+                    this.events = []
                 },
                 attack() {
                     if (this.attacker) {
@@ -73,12 +75,14 @@
                         if (this.you < 0) {
                             this.you = 0
                         }
+                        this.events.push(this.you)
                     }
                     else if (!this.attacker) {
-                        this.monster = this.you - Math.round(Math.random() * 15)
+                        this.monster = this.monster - Math.round(Math.random() * 15)
                         if (this.monster < 0) {
                             this.monster = 0
                         }
+                        this.events.push(this.monster)
                     }
                     this.attacker = !this.attacker
                 },
@@ -88,12 +92,14 @@
                         if (this.you < 0) {
                             this.you = 0
                         }
+                        this.events.push(this.you)
                     }
                     else if (!this.attacker) {
                         this.monster = this.monster - Math.round(Math.random() * 25)
                         if (this.monster < 0) {
                             this.monster = 0
                         }
+                        this.events.push(this.monster)
                     }
                     this.attacker = !this.attacker
                 },
@@ -103,12 +109,14 @@
                         if (this.you > 100) {
                             this.you = 100
                         }
+                        this.events.push(this.you)
                     }
                     else if (!this.attacker) {
                         this.monster = this.monster + Math.round(Math.random() * 20)
                         if (this.monster > 100) {
                             this.monster = 100
                         }
+                        this.events.push(this.monster)
                     }
                     this.attacker = !this.attacker
                 }
