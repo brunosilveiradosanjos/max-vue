@@ -15,7 +15,7 @@
                 <h1 class="text-center">YOU</h1>
                 <div class="healthbar">
                     <div class="healthbar text-center" :style="[youStatus]">
-
+                        {{you}}
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <h1 class="text-center">MONSTER</h1>
                 <div class="healthbar">
                     <div class="healthbar text-center" :style="[monsterStatus]">
-
+                        {{monster}}
                     </div>
                 </div>
             </div>
@@ -44,8 +44,9 @@
         <section class="row log">
             <div class="small-12 columns">
                 <ul>
-                    <li v-for="event in events" class="log">
-                        {{event}}
+                    <li v-for="event in events" class="log"
+                        :class="[{'player-turn': !event.isyou},{'monster-turn': event.isyou}]">
+                        {{event.message}}
                     </li>
                 </ul>
             </div>
@@ -71,52 +72,88 @@
                 },
                 attack() {
                     if (this.attacker) {
-                        this.you = this.you - Math.round(Math.random() * 10)
+                        this.damage = Math.round(Math.random() * 20)
+                        this.you = this.you - this.damage
                         if (this.you < 0) {
                             this.you = 0
+                            alert('You Lose')
+                            this.startGame()
+                        } else {
+                            this.events.unshift({
+                                isyou: true,
+                                message: 'Monster hit: ' + this.damage
+                            })
                         }
-                        this.events.push(this.you)
                     }
                     else if (!this.attacker) {
-                        this.monster = this.monster - Math.round(Math.random() * 15)
+                        this.damage = Math.round(Math.random() * 25)
+                        this.monster = this.monster - this.damage
                         if (this.monster < 0) {
                             this.monster = 0
+                            alert('You Won')
+                            this.startGame()
+                        } else {
+                            this.events.unshift({
+                                isyou: false,
+                                message: 'You hit: ' + this.damage
+                            })
                         }
-                        this.events.push(this.monster)
                     }
                     this.attacker = !this.attacker
                 },
                 specialAttack() {
                     if (this.attacker) {
-                        this.you = this.you - Math.round(Math.random() * 20)
+                        this.damage = Math.round(Math.random() * 30)
+                        this.you = this.you - this.damage
                         if (this.you < 0) {
                             this.you = 0
+                            alert('You Lose')
+                            this.startGame()
+                        } else {
+                            this.events.unshift({
+                                isyou: true,
+                                message: 'Monster hits: ' + this.damage
+                            })
                         }
-                        this.events.push(this.you)
                     }
                     else if (!this.attacker) {
-                        this.monster = this.monster - Math.round(Math.random() * 25)
+                        this.damage = Math.round(Math.random() * 35)
+                        this.monster = this.monster - this.damage
                         if (this.monster < 0) {
                             this.monster = 0
+                            alert('You Won')
+                            this.startGame()
+                        } else {
+                            this.events.unshift({
+                                isyou: false,
+                                message: 'You hit: ' + this.damage
+                            })
                         }
-                        this.events.push(this.monster)
                     }
                     this.attacker = !this.attacker
                 },
                 heal() {
-                    if (this.attacker) {
-                        this.you = this.you + Math.round(Math.random() * 30)
+                    if (!this.attacker) {
+                        this.damage = Math.round(Math.random() * 20)
+                        this.you = this.you + this.damage
                         if (this.you > 100) {
                             this.you = 100
                         }
-                        this.events.push(this.you)
+                        this.events.unshift({
+                            isyou: false,
+                            message: 'You Heal: ' + this.damage
+                        })
                     }
-                    else if (!this.attacker) {
-                        this.monster = this.monster + Math.round(Math.random() * 20)
+                    else if (this.attacker) {
+                        this.damage = Math.round(Math.random() * 20)
+                        this.monster = this.monster + this.damage
                         if (this.monster > 100) {
                             this.monster = 100
                         }
-                        this.events.push(this.monster)
+                        this.events.unshift({
+                            isyou: true,
+                            message: 'Monster Heals: ' + this.damage
+                        })
                     }
                     this.attacker = !this.attacker
                 }
