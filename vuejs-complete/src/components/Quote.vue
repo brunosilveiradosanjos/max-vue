@@ -2,10 +2,14 @@
   <div>
     <div class="title">
       <slot name="title"></slot>
+      <span style="color: #ccc">
+        <!-- works like NVL for the App.vue subtitle slot-->
+        <slot name="subtitle">The Subtitle</slot>
+      </span>
     </div>
     <hr />
     <div>
-      <slot name="content"></slot>
+      <slot></slot>
     </div>
   </div>
 </template>

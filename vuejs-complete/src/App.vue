@@ -2,7 +2,7 @@
   <div id="app">
     <app-quote>
       <h2 slot="title">{{quoteTitle}}</h2>
-      <p slot="content">A wonderful Quote</p>
+      <p>A wonderful Quote</p>
     </app-quote>
     <img alt="Vue logo" src="./assets/logo.png" />
   </div>
