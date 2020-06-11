@@ -15,6 +15,12 @@ export default {
   //   By default the component will be destroyed when other were selected
   destroyed() {
     console.log("New was destroyed");
+  },
+  deactivated() {
+    console.log("New was deactivated");
+  },
+  activated() {
+    console.log("New was activated");
   }
 };
 </script>
