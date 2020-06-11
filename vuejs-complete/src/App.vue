@@ -7,7 +7,12 @@
         <button @click="selectedComponent = 'appNew'">New</button>
         <p>{{selectedComponent}}</p>
         <hr />
-        <div v-if="selectedComponent != 'appQuote'">
+        <keep-alive>
+          <component :is="selectedComponent">
+            <p>Default content</p>
+          </component>
+        </keep-alive>
+        <!-- <div v-if="selectedComponent != 'appQuote'">
           <component :is="selectedComponent"></component>
         </div>
         <div v-if="selectedComponent=='appQuote'">
@@ -15,7 +20,7 @@
             <h2 slot="title">{{quoteTitle}}</h2>
             <p>A wonderful Quote</p>
           </app-quote>
-        </div>
+        </div>-->
       </div>
     </div>
     <img alt="Vue logo" src="./assets/logo.png" />
